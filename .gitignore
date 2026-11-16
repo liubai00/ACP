@@ -1,0 +1,19 @@
+.local/
+**/.venv/
+**/node_modules/
+**/__pycache__/
+**/.pytest_cache/
+**/.ruff_cache/
+board/dist/
+acp-link/.gocache/
+acp-link/.gomodcache/
+deploy/.env
+deploy/secrets/
+deploy/agentgateway/config.yaml
+*.pyc
+
+# 系统与编辑器杂项
+.DS_Store
+Thumbs.db
+*.log
+*.tsbuildinfo

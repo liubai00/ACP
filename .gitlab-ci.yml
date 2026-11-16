@@ -1,0 +1,94 @@
+# ACP 平台自身的 CI：lint + test 必跑；镜像构建需要能跑 Docker 的 Runner，手动触发；
+# 打标签时交叉编译 acp-link 并作为产物保存（部署包 /downloads/ 用的就是这些文件）。
+stages: [lint, test, build, release]
+
+variables:
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+  # 国内 Runner 可在 CI/CD 变量里覆盖为镜像源
+  PIP_INDEX_URL: https://pypi.org/simple
+  NPM_REGISTRY: https://registry.npmjs.org
+  GOPROXY: https://proxy.golang.org,direct
+
+line-endings:
+  stage: lint
+  image: alpine:3.20
+  script:
+    # 部署到 Linux 的文件必须是 LF（Windows 上编辑容易带进 CRLF，install.sh 会直接报错）
+    - |
+      bad=$(find . -path ./board/node_modules -prune -o -type f \( -name '*.sh' -o -name '*.py' -o -name '*.yaml' -o -name '*.yml' -o -name '*.tmpl' -o -name Caddyfile -o -name Dockerfile -o -name '*.conf' \) -print | while read -r f; do [ "$(wc -c < "$f")" = "$(tr -d '\r' < "$f" | wc -c)" ] || echo "$f"; done)
+      if [ -n "$bad" ]; then echo "CRLF 文件："; echo "$bad"; exit 1; fi
+
+coordinator:
+  stage: test
+  image: python:3.12-slim
+  services:
+    - name: postgres:16-alpine
+      alias: postgres
+  variables:
+    POSTGRES_USER: acp
+    POSTGRES_PASSWORD: acp
+    POSTGRES_DB: acp
+    ACP_TEST_DATABASE_URL: postgresql+psycopg://acp:acp@postgres:5432/acp_test
+  script:
+    - cd coordinator
+    - pip install -q -e ".[dev]"
+    - ruff check acp tests migrations
+    - pytest -q
+
+feishu-bridge:
+  stage: lint
+  image: python:3.12-slim
+  script:
+    - python -m py_compile feishu-bridge/bridge.py
+
+n8n-workflows:
+  stage: lint
+  image: python:3.12-slim
+  script:
+    # 工作流 JSON 由脚本生成，提交的文件必须与脚本输出一致
+    - cp -r n8n/workflows /tmp/committed
+    - python n8n/build_workflows.py
+    - diff -r /tmp/committed n8n/workflows
+
+board:
+  stage: test
+  image: node:22-alpine
+  script:
+    - cd board
+    - npm ci --registry=$NPM_REGISTRY --no-audit --no-fund
+    - npm run lint
+    - npm run build
+
+acp-link:
+  stage: test
+  image: golang:1.23
+  script:
+    - cd acp-link
+    - test -z "$(gofmt -l .)"
+    - go vet ./...
+    - go test ./...
+
+images:
+  stage: build
+  image: docker:27
+  services: [docker:27-dind]
+  variables:
+    DOCKER_TLS_CERTDIR: ""
+  when: manual
+  script:
+    - docker build --build-arg PIP_INDEX_URL=$PIP_INDEX_URL -t acp/coordinator:ci coordinator
+    - docker build -t acp/feishu-bridge:ci feishu-bridge
+    - docker build --build-arg NPM_REGISTRY=$NPM_REGISTRY -t acp/board:ci board
+
+acp-link-release:
+  stage: release
+  image: golang:1.23
+  rules:
+    - if: $CI_COMMIT_TAG
+  script:
+    - cd acp-link
+    - VERSION=${CI_COMMIT_TAG#v} ./build.sh
+  artifacts:
+    name: acp-link-$CI_COMMIT_TAG
+    paths: [acp-link/dist/]
+    expire_in: never

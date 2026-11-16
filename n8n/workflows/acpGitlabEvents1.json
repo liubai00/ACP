@@ -1,0 +1,128 @@
+{
+  "id": "acpGitlabEvents1",
+  "name": "ACP · GitLab 回执",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "gitlab",
+        "responseMode": "responseNode",
+        "options": {
+          "rawBody": false
+        }
+      },
+      "id": "bcf4efa2-1eca-58b4-9f2d-1149c278c258",
+      "name": "接收",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "8a7bd1fd-77d2-5bb3-b96a-dcc0617000b7"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// 校验 GitLab Webhook 的 Secret Token，并归一化 push / merge_request / pipeline 事件\nconst out = [];\nfor (const it of $input.all()) {\n  const req = it.json;\n  const headers = req.headers || {};\n  if ((headers['x-gitlab-token'] || '') !== ($env.GITLAB_WEBHOOK_TOKEN || '')) {\n    throw new Error('X-Gitlab-Token 不正确');\n  }\n  const raw = req.body || {};\n  const kind = raw.object_kind || raw.event_name || '';\n  const project = (raw.project || {}).path_with_namespace || '';\n  const projectUrl = (raw.project || {}).web_url || null;\n  const e = { event_uuid: headers['x-gitlab-event-uuid'] || null, kind, project, project_url: projectUrl,\n              user: (raw.user || {}).username || raw.user_username || null };\n  if (kind === 'push') {\n    e.branch = (raw.ref || '').replace('refs/heads/', '');\n    e.sha = raw.after;\n  } else if (kind === 'merge_request') {\n    const a = raw.object_attributes || {};\n    Object.assign(e, { branch: a.source_branch, sha: (a.last_commit || {}).id, mr_iid: a.iid, mr_url: a.url, mr_state: a.state, mr_action: a.action });\n  } else if (kind === 'pipeline') {\n    const a = raw.object_attributes || {};\n    const mr = raw.merge_request || {};\n    Object.assign(e, { branch: mr.source_branch || a.ref, sha: a.sha, mr_iid: mr.iid || null, mr_url: mr.url || null,\n      pipeline_status: a.status, pipeline_url: projectUrl && a.id ? `${projectUrl}/-/pipelines/${a.id}` : null,\n      failed_jobs: (raw.builds || []).filter(b => b.status === 'failed').map(b => ({ name: b.name, stage: b.stage, failure_reason: b.failure_reason })) });\n  }\n  out.push({ json: e });\n}\nreturn out;"
+      },
+      "id": "4d61e144-f985-5197-889c-55bbb300f874",
+      "name": "校验并归一化",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        260,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.ACP_API_URL }}/api/events/gitlab",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.ACP_CONNECTOR_TOKEN }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 15000
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}"
+      },
+      "id": "8e969c4c-b4d6-55b5-a2a6-0547ecf13978",
+      "name": "提交协调服务器",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        520,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      },
+      "id": "2812106f-9554-5050-9a7a-d7f5b224521b",
+      "name": "返回结果",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        780,
+        0
+      ]
+    }
+  ],
+  "connections": {
+    "接收": {
+      "main": [
+        [
+          {
+            "node": "校验并归一化",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "校验并归一化": {
+      "main": [
+        [
+          {
+            "node": "提交协调服务器",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "提交协调服务器": {
+      "main": [
+        [
+          {
+            "node": "返回结果",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "versionId": "0284f0c5-0c2c-5d43-84b7-6a2ee2521219",
+  "settings": {
+    "executionOrder": "v1",
+    "saveDataSuccessExecution": "all",
+    "saveDataErrorExecution": "all",
+    "saveManualExecutions": true
+  },
+  "pinData": {},
+  "tags": []
+}

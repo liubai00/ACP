@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  launchd user agent for acp-link (rendered by install-macos.sh).
+  Placeholders: __LABEL__ __BIN__ __HOME__ __PATH__ __LOGDIR__ __EXTRA_ENV__
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>__LABEL__</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>__BIN__</string>
+    <string>run</string>
+  </array>
+  <key>WorkingDirectory</key>
+  <string>__HOME__</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <!-- launchd starts with a minimal PATH; claude/codex/git/node must be resolvable -->
+    <key>PATH</key>
+    <string>__PATH__</string>
+    <key>HOME</key>
+    <string>__HOME__</string>
+__EXTRA_ENV__
+  </dict>
+  <key>RunAtLoad</key>
+  <true/>
+  <!-- restart after crashes, but not after a clean exit -->
+  <key>KeepAlive</key>
+  <dict>
+    <key>SuccessfulExit</key>
+    <false/>
+  </dict>
+  <key>ThrottleInterval</key>
+  <integer>30</integer>
+  <key>ProcessType</key>
+  <string>Interactive</string>
+  <key>StandardOutPath</key>
+  <string>__LOGDIR__/launchd.out.log</string>
+  <key>StandardErrorPath</key>
+  <string>__LOGDIR__/launchd.err.log</string>
+</dict>
+</plist>

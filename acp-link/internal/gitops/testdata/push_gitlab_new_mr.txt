@@ -1,0 +1,11 @@
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Writing objects: 100% (3/3), 312 bytes | 312.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0), pack-reused 0
+remote:
+remote: View merge request for acp/42-add-hello-endpoint:
+remote:   https://gitlab.example.com/group/demo/-/merge_requests/17
+remote:
+To gitlab.example.com:group/demo.git
+*	HEAD:refs/heads/acp/42-add-hello-endpoint	[new branch]
+Done

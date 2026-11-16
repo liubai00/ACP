@@ -1,0 +1,2 @@
+{"type":"system","subtype":"init","cwd":"/ws/42","session_id":"1","tools":[],"mcp_servers":[],"model":"claude-sonnet-4-5","permissionMode":"acceptEdits"}
+{"type":"result","subtype":"error_max_turns","is_error":true,"duration_ms":100,"num_turns":30,"session_id":"1"}

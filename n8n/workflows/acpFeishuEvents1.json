@@ -1,0 +1,128 @@
+{
+  "id": "acpFeishuEvents1",
+  "name": "ACP · 飞书事件",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "feishu-events",
+        "responseMode": "responseNode",
+        "options": {
+          "rawBody": false
+        }
+      },
+      "id": "4f080ff7-75c8-51b1-ae51-d5e97e333273",
+      "name": "接收",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "b5e332e4-c93e-56bf-bf6e-10a5526b397b"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// 校验 feishu-bridge 的共享密钥，并把飞书原始事件归一化为协调服务器的格式（contracts/API.md 第 3 节）\nconst out = [];\nfor (const it of $input.all()) {\n  const req = it.json;\n  const headers = req.headers || {};\n  if ((headers['x-bridge-token'] || '') !== ($env.BRIDGE_FORWARD_TOKEN || '')) {\n    throw new Error('X-Bridge-Token 不正确');\n  }\n  const raw = req.body || {};\n  const header = raw.header || {};\n  const ev = raw.event || {};\n  const t = header.event_type || raw.type || '';\n  const base = { event_id: header.event_id || raw.uuid || null, event_type: t, raw };\n  if (t === 'im.message.receive_v1') {\n    const msg = ev.message || {};\n    let text = '';\n    try {\n      const c = JSON.parse(msg.content || '{}');\n      text = c.text || '';\n      if (!text && Array.isArray(c.content)) {\n        text = c.content.map(line => line.filter(s => s.tag === 'text' || s.tag === 'a').map(s => s.text).join('')).join('\\n');\n      }\n    } catch (e) { text = ''; }\n    const botId = raw._acp_bot_open_id;\n    const mentions = (msg.mentions || []).map(m => {\n      const o = { open_id: (m.id || {}).open_id, name: m.name, key: m.key };\n      if (botId) o.is_bot = o.open_id === botId;\n      return o;\n    });\n    out.push({ json: { ...base, kind: 'message', chat_id: msg.chat_id, chat_type: msg.chat_type, message_id: msg.message_id,\n      sender_open_id: ((ev.sender || {}).sender_id || {}).open_id, text, mentions } });\n  } else if (t === 'card.action.trigger') {\n    const action = ev.action || {};\n    const ctx = ev.context || {};\n    const op = ev.operator || {};\n    out.push({ json: { ...base, kind: 'card_action', chat_id: ctx.open_chat_id, message_id: ctx.open_message_id, sender_open_id: op.open_id,\n      action: { value: action.value || {}, operator_open_id: op.open_id, open_message_id: ctx.open_message_id,\n                form_value: action.form_value || null, input_value: action.input_value || null } } });\n  } else if (t.includes('shortcut')) {\n    const op = ev.operator || {};\n    out.push({ json: { ...base, kind: 'shortcut', chat_id: ev.chat_id || (ev.context || {}).open_chat_id,\n      message_id: ev.message_id || (ev.context || {}).open_message_id,\n      sender_open_id: (op.operator_id || {}).open_id || op.open_id } });\n  } else {\n    out.push({ json: { ...base, kind: 'other' } });\n  }\n}\nreturn out;"
+      },
+      "id": "bc01c56a-32ea-5523-ac86-34c5e8745ebe",
+      "name": "校验并归一化",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        260,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.ACP_API_URL }}/api/events/feishu",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.ACP_CONNECTOR_TOKEN }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 15000
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}"
+      },
+      "id": "4b75df03-61ac-55da-890c-81af03685891",
+      "name": "提交协调服务器",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        520,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      },
+      "id": "aba13d2a-b097-5091-ab6b-e3f687dd3a49",
+      "name": "返回结果",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        780,
+        0
+      ]
+    }
+  ],
+  "connections": {
+    "接收": {
+      "main": [
+        [
+          {
+            "node": "校验并归一化",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "校验并归一化": {
+      "main": [
+        [
+          {
+            "node": "提交协调服务器",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "提交协调服务器": {
+      "main": [
+        [
+          {
+            "node": "返回结果",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "versionId": "7bb4781a-3880-5bff-ac94-059bf91fc9ac",
+  "settings": {
+    "executionOrder": "v1",
+    "saveDataSuccessExecution": "all",
+    "saveDataErrorExecution": "all",
+    "saveManualExecutions": true
+  },
+  "pinData": {},
+  "tags": []
+}

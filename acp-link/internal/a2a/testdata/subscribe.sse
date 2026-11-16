@@ -1,0 +1,26 @@
+: connected
+retry: 3000
+
+id: 1
+data: {"jsonrpc":"2.0","id":"acp-link-1","result":{"kind":"task","id":"sub-ag-1","contextId":"sub","status":{"state":"working","timestamp":"2026-11-09T08:00:00Z"}}}
+
+: ping
+
+event: message
+id: 2
+data: {"jsonrpc":"2.0","id":"acp-link-1","result":{"kind":"status-update","taskId":"sub-ag-1","contextId":"sub","status":{"state":"working","message":{"role":"agent","parts":[{"kind":"data","data":{"type":"assignment","reason":"new","task":{"id":42,"key":"ACP-42","title":"Add hello endpoint","state":"working","type":"requirement","priority":"normal","source":"board","repos":["group/demo"],"skills":["backend"],"labels":[],"creator":null,"assignee":{"id":"m1","name":"张三","avatar_url":null},"assignee_agent":{"id":"ag-1","name":"laptop","kind":"echo"},"suggested_assignee":null,"parent_id":null,"root_id":42,"depth":0,"children_count":0,"mr_count":0,"mr_merged":0,"ci_status":"none","created_at":"2026-11-09T08:00:00Z","updated_at":"2026-11-09T08:00:00Z","state_changed_at":"2026-11-09T08:00:00Z","closed_at":null,"is_demo":false}}}]}},"final":false}}
+
+data: {"jsonrpc":"2.0","id":"acp-link-1",
+data:  "result":{"kind":"status-update","taskId":"sub-ag-1","status":{"state":"working","message":{"role":"agent","parts":[{"kind":"data","data":{"type":"ping"}}]}},"final":false}}
+
+data: {"jsonrpc":"2.0","id":"acp-link-1","result":{"kind":"status-update","taskId":"sub-ag-1","status":{"state":"working","message":{"role":"agent","parts":[{"kind":"data","data":{"type":"revoked","task_id":42,"reason":"canceled"}}]}},"final":false}}
+
+data: {"jsonrpc":"2.0","id":"acp-link-1","result":{"kind":"status-update","taskId":"sub-ag-1","status":{"state":"working","message":{"role":"agent","parts":[{"kind":"data","data":{"type":"message","task_id":"42","from":"李四","text":"请顺便更新文档"}}]}},"final":false}}
+
+data: {"jsonrpc":"2.0","id":"acp-link-1","result":{"kind":"status-update","taskId":"sub-ag-1","status":{"state":"working","message":{"role":"agent","parts":[{"kind":"data","data":{"type":"task_state","task":{"id":42,"key":"ACP-42","title":"Add hello endpoint","state":"auth-required"}}}]}},"final":false}}
+
+data: {"jsonrpc":"2.0","id":"acp-link-1","result":{"statusUpdate":{"taskId":"sub-ag-1","status":{"state":"TASK_STATE_WORKING","message":{"role":"agent","parts":[{"data":{"data":{"type":"assignment","reason":"ci_failed","task":{"id":43,"title":"Fix CI","state":"working","repos":["group/demo"]}}}}]}}}}}
+
+data: {"jsonrpc":"2.0","id":"acp-link-1","result":{"kind":"status-update","taskId":"sub-ag-1","status":{"state":"canceled"},"final":true}}
+
+data: this event is never terminated by a blank line and must be dropped

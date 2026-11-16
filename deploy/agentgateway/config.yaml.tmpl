@@ -1,0 +1,76 @@
+# agentgateway v1.7 独立模式配置模板，由 scripts/render-gateway.sh 生成 config.yaml。
+# 端口 3000：对外三个接口面（Caddy 转进来）；端口 3001：协调 Agent 调大模型（只在内网，key 只在这里）。
+binds:
+- port: 3000
+  listeners:
+  - protocol: HTTP
+    routes:
+    - name: a2a
+      matches:
+      - path:
+          pathPrefix: /a2a
+      policies:
+        jwtAuth:
+          mode: strict
+          issuer: "__ISSUER__"
+          audiences: [acp]
+          preserveToken: true
+          jwks:
+            url: http://coordinator:8000/.well-known/jwks.json
+        a2a: {}
+      backends:
+      - host: coordinator:8000
+    - name: mcp
+      matches:
+      - path:
+          pathPrefix: /mcp
+      policies:
+        jwtAuth:
+          mode: strict
+          issuer: "__ISSUER__"
+          audiences: [acp]
+          preserveToken: true
+          jwks:
+            url: http://coordinator:8000/.well-known/jwks.json
+        mcpAuthorization:
+          rules:
+          - 'mcp.tool.name == "list_tasks" || mcp.tool.name == "get_task" || mcp.tool.name == "list_agents"'
+          - 'mcp.tool.name == "claim_task" && jwt.act == "member"'
+          - 'mcp.tool.name == "update_task" || mcp.tool.name == "post_message" || mcp.tool.name == "request_approval"'
+          - 'mcp.tool.name == "ask_agent" && "agent_caller" in jwt.roles'
+      backends:
+      - mcp:
+          statefulMode: stateless
+          targets:
+          - name: coordinator
+            mcp:
+              host: http://coordinator:8000/mcp
+    - name: api
+      matches:
+      - path:
+          pathPrefix: /api
+      policies:
+        jwtAuth:
+          mode: strict
+          issuer: "__ISSUER__"
+          audiences: [acp]
+          preserveToken: true
+          jwks:
+            url: http://coordinator:8000/.well-known/jwks.json
+      backends:
+      - host: coordinator:8000
+- port: 3001
+  listeners:
+  - protocol: HTTP
+    routes:
+    - name: llm
+      backends:
+      - ai:
+          name: llm
+          # CUSTOM_HTTPS_UPSTREAM
+          provider:
+            __LLM_PROVIDER__:
+              model: "__LLM_MODEL__"
+      policies:
+        backendAuth:
+          key: "$LLM_API_KEY"

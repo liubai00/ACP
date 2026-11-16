@@ -1,0 +1,51 @@
+[project]
+name = "acp-coordinator"
+version = "0.1.0"
+description = "派活（代号 ACP）协调服务器：确定性内核 + 协调 Agent 外壳，对外提供 REST / A2A / MCP"
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi>=0.115,<1",
+  "uvicorn[standard]>=0.32,<1",
+  "sqlalchemy[asyncio]>=2.0.36,<2.1",
+  "psycopg[binary]>=3.2,<4",
+  "alembic>=1.14,<2",
+  "pydantic>=2.9,<3",
+  "pydantic-settings>=2.6,<3",
+  "pyjwt[crypto]>=2.9,<3",
+  "cryptography>=43",
+  "httpx>=0.27,<1",
+  "mcp>=1.9,<2",
+  "typer>=0.12,<1",
+  "sse-starlette>=2.1,<3",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8",
+  "pytest-asyncio>=0.24",
+  "ruff>=0.7",
+]
+
+[project.scripts]
+acp-admin = "acp.cli:app"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["acp"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "session"
+asyncio_default_test_loop_scope = "session"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["E501", "B008"]

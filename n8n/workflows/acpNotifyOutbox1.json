@@ -1,0 +1,323 @@
+{
+  "id": "acpNotifyOutbox1",
+  "name": "ACP · 通知出口",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "acp-notify",
+        "responseMode": "responseNode",
+        "options": {
+          "rawBody": false
+        }
+      },
+      "id": "939ea58a-b031-5b14-8aab-7d92080a3fcd",
+      "name": "接收",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "155ed292-3652-5615-a27d-e997bf8691c8"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// 校验协调服务器的通知令牌\nconst out = [];\nfor (const it of $input.all()) {\n  const req = it.json;\n  if (((req.headers || {})['x-acp-token'] || '') !== ($env.ACP_NOTIFY_TOKEN || '')) {\n    throw new Error('X-ACP-Token 不正确');\n  }\n  out.push({ json: req.body || {} });\n}\nreturn out;"
+      },
+      "id": "6afa0eab-eed5-54d4-a489-3844743c618a",
+      "name": "校验通知令牌",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "99f9c00b-4ec6-5a7b-9e85-2c65c5b56509",
+              "leftValue": "={{ $json.kind }}",
+              "rightValue": "gitlab.comment",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "99693c1a-11e0-5bf2-8eb7-1158fe403b1a",
+      "name": "是 GitLab 评论？",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        480,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.GITLAB_URL }}/api/v4/projects/{{ encodeURIComponent($json.project) }}/merge_requests/{{ $json.mr_iid }}/notes",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "PRIVATE-TOKEN",
+              "value": "={{ $env.GITLAB_BOT_TOKEN }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 15000
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ body: $json.body }) }}"
+      },
+      "id": "c4cf6efa-7f83-51d4-a161-0373bdbec25d",
+      "name": "写 MR 评论",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        740,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      },
+      "id": "7e924894-7878-5ef4-8306-be124c6b8d35",
+      "name": "返回 GitLab 结果",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1000,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ ($env.FEISHU_BASE_URL || 'https://open.feishu.cn') }}/open-apis/auth/v3/tenant_access_token/internal",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": []
+        },
+        "options": {
+          "timeout": 15000
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ app_id: $env.FEISHU_APP_ID, app_secret: $env.FEISHU_APP_SECRET }) }}"
+      },
+      "id": "d377fce2-c36d-5ee6-a0f6-19398d6bfe02",
+      "name": "取飞书令牌",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        740,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// 根据通知类型组装飞书接口请求：发卡片 / 发文本 / 回复 / 更新卡片\nconst n = $('校验通知令牌').first().json;\nconst token = $input.first().json.tenant_access_token;\nif (!token) throw new Error('获取 tenant_access_token 失败：' + JSON.stringify($input.first().json));\nconst base = ($env.FEISHU_BASE_URL || 'https://open.feishu.cn') + '/open-apis/im/v1/messages';\nlet method = 'POST', url, body;\nif (n.kind === 'feishu.card' && n.update_message_id) {\n  method = 'PATCH'; url = `${base}/${n.update_message_id}`; body = { content: JSON.stringify(n.card) };\n} else {\n  const msgType = n.kind === 'feishu.card' ? 'interactive' : 'text';\n  const content = JSON.stringify(n.kind === 'feishu.card' ? n.card : { text: n.text });\n  if (n.reply_to_message_id) {\n    url = `${base}/${n.reply_to_message_id}/reply`; body = { msg_type: msgType, content };\n  } else {\n    url = `${base}?receive_id_type=${n.receive_id_type}`; body = { receive_id: n.receive_id, msg_type: msgType, content };\n  }\n}\nreturn [{ json: { method, url, body, token } }];"
+      },
+      "id": "597e1c79-3b9b-57e6-952c-05a0d63e636c",
+      "name": "组装飞书请求",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1000,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "method": "={{ $json.method }}",
+        "url": "={{ $json.url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $json.token }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 15000,
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.body) }}"
+      },
+      "id": "f0caa6ef-85f1-5f1b-8342-1136fad73081",
+      "name": "调飞书接口",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1260,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// 飞书接口返回 code != 0 时让工作流失败，协调服务器会重试\nconst r = $input.first().json;\nif (r.code !== 0) throw new Error(`飞书接口错误 ${r.code}: ${r.msg}`);\nreturn [{ json: { ok: true, data: r.data || {} } }];"
+      },
+      "id": "6a45a914-0018-5e1f-a755-0dcf0c4dd8cf",
+      "name": "检查飞书返回",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1520,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      },
+      "id": "90f1a204-a3e0-5fe1-bdd8-6540f5ddf7b3",
+      "name": "返回飞书结果",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1780,
+        120
+      ]
+    }
+  ],
+  "connections": {
+    "接收": {
+      "main": [
+        [
+          {
+            "node": "校验通知令牌",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "校验通知令牌": {
+      "main": [
+        [
+          {
+            "node": "是 GitLab 评论？",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "是 GitLab 评论？": {
+      "main": [
+        [
+          {
+            "node": "写 MR 评论",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "取飞书令牌",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "写 MR 评论": {
+      "main": [
+        [
+          {
+            "node": "返回 GitLab 结果",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "取飞书令牌": {
+      "main": [
+        [
+          {
+            "node": "组装飞书请求",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "组装飞书请求": {
+      "main": [
+        [
+          {
+            "node": "调飞书接口",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "调飞书接口": {
+      "main": [
+        [
+          {
+            "node": "检查飞书返回",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "检查飞书返回": {
+      "main": [
+        [
+          {
+            "node": "返回飞书结果",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "versionId": "5dc952b8-8e0c-59e5-b14e-dfcd630f48b8",
+  "settings": {
+    "executionOrder": "v1",
+    "saveDataSuccessExecution": "all",
+    "saveDataErrorExecution": "all",
+    "saveManualExecutions": true
+  },
+  "pinData": {},
+  "tags": []
+}

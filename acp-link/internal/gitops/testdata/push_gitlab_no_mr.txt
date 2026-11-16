@@ -1,0 +1,7 @@
+remote:
+remote: To create a merge request for acp/42-add-hello-endpoint, visit:
+remote:   https://gitlab.example.com/group/demo/-/merge_requests/new?merge_request%5Bsource_branch%5D=acp%2F42-add-hello-endpoint
+remote:
+To https://gitlab.example.com/group/demo.git
+*	HEAD:refs/heads/acp/42-add-hello-endpoint	[new branch]
+Done

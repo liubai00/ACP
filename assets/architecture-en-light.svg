@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 792" width="840" height="792" role="img" aria-label="Paihuo architecture: entry points, glue, gateway, coordinator and developer machines, with GitLab on the right" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans CJK SC','WenQuanYi Zen Hei',sans-serif">
+<title>Paihuo architecture: entry points, glue, gateway, coordinator and developer machines, with GitLab on the right</title>
+<defs><filter id="sh" x="-10%" y="-10%" width="120%" height="140%"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.07"/></filter><marker id="m94A3B8" viewBox="0 0 10 10" refX="8.2" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1.2 1.6 8.6 5 1.2 8.4" fill="none" stroke="#94A3B8" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></marker><marker id="m2563EB" viewBox="0 0 10 10" refX="8.2" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1.2 1.6 8.6 5 1.2 8.4" fill="none" stroke="#2563EB" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></marker><marker id="m7C3AED" viewBox="0 0 10 10" refX="8.2" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1.2 1.6 8.6 5 1.2 8.4" fill="none" stroke="#7C3AED" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></marker><marker id="m059669" viewBox="0 0 10 10" refX="8.2" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1.2 1.6 8.6 5 1.2 8.4" fill="none" stroke="#059669" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect x="0.5" y="0.5" width="839" height="791" rx="16" fill="#F8FAFC" stroke="#E2E8F0"/>
+<text x="28" y="40" font-size="17" font-weight="700" fill="#0F172A" text-anchor="start">Architecture</text>
+<text x="28" y="61" font-size="12" font-weight="400" fill="#64748B" text-anchor="start">Only the coordinator, the connector, the board and a tiny event bridge are custom. Everything else is off the shelf.</text>
+<text x="76" y="86" font-size="9.5" font-weight="700" fill="#94A3B8" text-anchor="start" letter-spacing="1.2">ENTRY</text>
+<rect x="76" y="96" width="176" height="54" rx="10" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1" filter="url(#sh)"/>
+<rect x="76.5" y="105" width="3" height="36" rx="1.5" fill="#2563EB"/>
+<text x="92" y="119" font-size="13.5" font-weight="700" fill="#0F172A" text-anchor="start">Task board</text>
+<text x="92" y="136" font-size="10.8" font-weight="400" fill="#64748B" text-anchor="start">React · live timeline</text>
+<rect x="272" y="96" width="420" height="54" rx="10" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1" filter="url(#sh)"/>
+<rect x="272.5" y="105" width="3" height="36" rx="1.5" fill="#64748B"/>
+<text x="288" y="119" font-size="13.5" font-weight="700" fill="#0F172A" text-anchor="start">Feishu / Lark</text>
+<text x="288" y="136" font-size="10.8" font-weight="400" fill="#64748B" text-anchor="start">group @bot · DM · message shortcut · approval cards</text>
+<text x="272" y="182" font-size="9.5" font-weight="700" fill="#94A3B8" text-anchor="start" letter-spacing="1.2">GLUE</text>
+<rect x="272" y="190" width="190" height="54" rx="10" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1" filter="url(#sh)"/>
+<rect x="272.5" y="199" width="3" height="36" rx="1.5" fill="#2563EB"/>
+<text x="288" y="213" font-size="13.5" font-weight="700" fill="#0F172A" text-anchor="start" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace">feishu-bridge</text>
+<text x="288" y="230" font-size="10.8" font-weight="400" fill="#64748B" text-anchor="start">long-lived event bridge</text>
+<rect x="482" y="190" width="210" height="54" rx="10" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1" filter="url(#sh)"/>
+<rect x="482.5" y="199" width="3" height="36" rx="1.5" fill="#64748B"/>
+<text x="498" y="213" font-size="13.5" font-weight="700" fill="#0F172A" text-anchor="start">n8n</text>
+<text x="498" y="230" font-size="10.8" font-weight="400" fill="#64748B" text-anchor="start">chat events · GitLab hooks · notify</text>
+<path d="M367 154 L367 185.5" fill="none" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#m94A3B8)"/>
+<path d="M465 217 L478.5 217" fill="none" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#m94A3B8)"/>
+<path d="M695.5 217 L708.5 217" fill="none" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#m94A3B8)" marker-start="url(#m94A3B8)"/>
+<text x="702" y="208" font-size="9" font-weight="400" fill="#0F172A" text-anchor="start"></text>
+<text x="188" y="282" font-size="9.5" font-weight="700" fill="#94A3B8" text-anchor="start" letter-spacing="1.2">GATEWAY</text>
+<rect x="76" y="290" width="92" height="50" rx="10" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1" filter="url(#sh)"/>
+<rect x="76.5" y="299" width="3" height="32" rx="1.5" fill="#64748B"/>
+<text x="122" y="311" font-size="13.5" font-weight="700" fill="#0F172A" text-anchor="middle">Caddy</text>
+<text x="122" y="328" font-size="10.8" font-weight="400" fill="#64748B" text-anchor="middle">TLS</text>
+<rect x="188" y="290" width="504" height="50" rx="10" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1" filter="url(#sh)"/>
+<rect x="188.5" y="299" width="3" height="32" rx="1.5" fill="#64748B"/>
+<text x="204" y="311" font-size="13.5" font-weight="700" fill="#0F172A" text-anchor="start">agentgateway</text>
+<text x="204" y="328" font-size="10.8" font-weight="400" fill="#64748B" text-anchor="start">JWT · CEL tool allowlist · audit · LLM proxy</text>
+<path d="M171 315 L184.5 315" fill="none" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#m94A3B8)"/>
+<path d="M122 154 L122 285.5" fill="none" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#m94A3B8)"/>
+<rect x="132" y="211" width="74.528" height="18" rx="9" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+<text x="169.264" y="223.6" font-size="10" font-weight="600" fill="#64748B" text-anchor="middle">REST · SSE</text>
+<path d="M587 248 L587 285.5" fill="none" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#m94A3B8)"/>
+<rect x="597" y="258" width="42.288" height="18" rx="9" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+<text x="618.144" y="270.6" font-size="10" font-weight="600" fill="#64748B" text-anchor="middle">REST</text>
+<rect x="76" y="372" width="616" height="220" rx="14" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.6" filter="url(#sh)"/>
+<path d="M440 344 L440 367.5" fill="none" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#m94A3B8)"/>
+<text x="94" y="400" font-size="15" font-weight="700" fill="#0F172A" text-anchor="start">Coordinator</text>
+<text x="196.508" y="400" font-size="11" font-weight="400" fill="#64748B" text-anchor="start">Python / FastAPI</text>
+<rect x="438.526" y="384" width="237.474" height="22" rx="11" fill="#2563EB" stroke="none" stroke-width="1"/>
+<text x="557.263" y="398.96" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">The model proposes, the kernel decides</text>
+<rect x="94" y="416" width="186.667" height="30" rx="8" fill="#FFFFFF" stroke="#BFDBFE" stroke-width="1"/>
+<text x="106" y="435.5" font-size="11.5" font-weight="700" fill="#1D4ED8" text-anchor="start" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace">/a2a</text>
+<text x="268.667" y="435.5" font-size="11.5" font-weight="600" fill="#0F172A" text-anchor="end">A2A 1.0</text>
+<rect x="290.667" y="416" width="186.667" height="30" rx="8" fill="#FFFFFF" stroke="#BFDBFE" stroke-width="1"/>
+<text x="302.667" y="435.5" font-size="11.5" font-weight="700" fill="#1D4ED8" text-anchor="start" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace">/mcp</text>
+<text x="465.333" y="435.5" font-size="11.5" font-weight="600" fill="#0F172A" text-anchor="end">MCP tools</text>
+<rect x="487.333" y="416" width="186.667" height="30" rx="8" fill="#FFFFFF" stroke="#BFDBFE" stroke-width="1"/>
+<text x="499.333" y="435.5" font-size="11.5" font-weight="700" fill="#1D4ED8" text-anchor="start" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace">/api</text>
+<text x="662" y="435.5" font-size="11.5" font-weight="600" fill="#0F172A" text-anchor="end">REST + SSE</text>
+<rect x="94" y="460" width="236" height="92" rx="10" fill="#FFFFFF" stroke="#64748B" stroke-width="1.1" stroke-dasharray="4 3.5"/>
+<text x="108" y="484" font-size="13.5" font-weight="700" fill="#0F172A" text-anchor="start">Agent shell</text>
+<rect x="281.869" y="470.25" width="36.1312" height="17.5" rx="8.75" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1"/>
+<text x="299.934" y="482.42" font-size="9.5" font-weight="700" fill="#475569" text-anchor="middle">LLM</text>
+<text x="108" y="505" font-size="10.8" font-weight="400" fill="#64748B" text-anchor="start">Parse requests · split · suggest</text>
+<text x="108" y="521" font-size="10.8" font-weight="400" fill="#64748B" text-anchor="start">Triage CI failures · answer · patrol</text>
+<rect x="438" y="460" width="236" height="92" rx="10" fill="#FFFFFF" stroke="#2563EB" stroke-width="1.5"/>
+<text x="452" y="484" font-size="13.5" font-weight="700" fill="#0F172A" text-anchor="start">Deterministic kernel</text>
+<rect x="626.264" y="470.25" width="35.736" height="17.5" rx="8.75" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+<text x="644.132" y="482.42" font-size="9.5" font-weight="700" fill="#1D4ED8" text-anchor="middle">code</text>
+<text x="452" y="505" font-size="10.8" font-weight="400" fill="#64748B" text-anchor="start">Task store · 8-state A2A machine</text>
+<text x="452" y="521" font-size="10.8" font-weight="400" fill="#64748B" text-anchor="start">Permissions · approval gates · dispatch</text>
+<text x="108" y="542" font-size="9.8" font-weight="600" fill="#475569" text-anchor="start">L0 suggest  L1 act + notify  L2 auto</text>
+<text x="452" y="542" font-size="9.8" font-weight="600" fill="#1D4ED8" text-anchor="start">keeps running without the model</text>
+<path d="M334 506 L433.5 506" fill="none" stroke="#2563EB" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#m2563EB)"/>
+<text x="384" y="482" font-size="10" font-weight="600" fill="#1D4ED8" text-anchor="middle">acts only via</text>
+<text x="384" y="495" font-size="10" font-weight="600" fill="#1D4ED8" text-anchor="middle">kernel calls</text>
+<rect x="94" y="564" width="580" height="28" rx="8" fill="#FFFFFF" stroke="#BFDBFE" stroke-width="1"/>
+<text x="384" y="582.5" font-size="11.2" font-weight="600" fill="#0F172A" text-anchor="middle">PostgreSQL 16 · single source of truth · append-only events</text>
+<rect x="712" y="96" width="104" height="496" rx="14" fill="#F5F3FF" stroke="#DDD6FE" stroke-width="1" filter="url(#sh)"/>
+<text x="764" y="126" font-size="15" font-weight="700" fill="#0F172A" text-anchor="middle">GitLab</text>
+<text x="764" y="148" font-size="10.8" font-weight="400" fill="#64748B" text-anchor="middle">Code and merge</text>
+<text x="764" y="163" font-size="10.8" font-weight="400" fill="#64748B" text-anchor="middle">rights stay here</text>
+<rect x="735.699" y="207" width="56.6026" height="20" rx="10" fill="#FFFFFF" stroke="#DDD6FE" stroke-width="1"/>
+<text x="764" y="220.528" font-size="9.8" font-weight="700" fill="#6D28D9" text-anchor="middle">Webhook</text>
+<rect x="722" y="540" width="84" height="26" rx="8" fill="#FFFFFF" stroke="#DDD6FE" stroke-width="1"/>
+<text x="764" y="557" font-size="10.5" font-weight="600" fill="#0F172A" text-anchor="middle">task branch</text>
+<rect x="722" y="496" width="84" height="26" rx="8" fill="#FFFFFF" stroke="#DDD6FE" stroke-width="1"/>
+<text x="764" y="513" font-size="10.5" font-weight="600" fill="#0F172A" text-anchor="middle">Merge Request</text>
+<path d="M764 537 L764 526" fill="none" stroke="#7C3AED" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#m7C3AED)"/>
+<rect x="722" y="452" width="84" height="26" rx="8" fill="#FFFFFF" stroke="#DDD6FE" stroke-width="1"/>
+<text x="764" y="469" font-size="10.5" font-weight="600" fill="#0F172A" text-anchor="middle">CI pipeline</text>
+<path d="M764 493 L764 482" fill="none" stroke="#7C3AED" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#m7C3AED)"/>
+<rect x="722" y="408" width="84" height="26" rx="8" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.4"/>
+<text x="764" y="425" font-size="10.5" font-weight="700" fill="#6D28D9" text-anchor="middle">human merge</text>
+<path d="M764 449 L764 438" fill="none" stroke="#7C3AED" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#m7C3AED)"/>
+<path d="M764 404 L764 232" fill="none" stroke="#7C3AED" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 4.5" marker-end="url(#m7C3AED)"/>
+<text x="773" y="320.5" font-size="10" font-weight="600" fill="#6D28D9" text-anchor="start">events</text>
+<path d="M24 632 H816" stroke="#94A3B8" stroke-width="1.2" stroke-dasharray="2 5" stroke-linecap="round"/>
+<rect x="243.323" y="620" width="353.354" height="24" rx="12" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+<text x="420" y="636" font-size="11" font-weight="600" fill="#64748B" text-anchor="middle">NAT boundary: dev machines only dial out, no inbound ports</text>
+<rect x="24" y="668" width="792" height="86" rx="14" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1" filter="url(#sh)"/>
+<text x="40" y="688" font-size="9.5" font-weight="700" fill="#94A3B8" text-anchor="start" letter-spacing="1.2">DEVELOPER MACHINES × N</text>
+<rect x="40" y="698" width="238.667" height="44" rx="9" fill="#FFFFFF" stroke="#A7F3D0" stroke-width="1"/>
+<text x="54" y="717" font-size="13" font-weight="700" fill="#0F172A" text-anchor="start" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace">acp-link</text>
+<text x="54" y="733" font-size="10.2" font-weight="400" fill="#64748B" text-anchor="start">single Go binary · device login</text>
+<rect x="300.667" y="698" width="238.667" height="44" rx="9" fill="#FFFFFF" stroke="#A7F3D0" stroke-width="1"/>
+<text x="314.667" y="717" font-size="13" font-weight="700" fill="#0F172A" text-anchor="start">Personal agent</text>
+<text x="314.667" y="733" font-size="10.2" font-weight="400" fill="#64748B" text-anchor="start">Claude Code / Codex · the dev&#x27;s own account</text>
+<rect x="561.333" y="698" width="238.667" height="44" rx="9" fill="#FFFFFF" stroke="#A7F3D0" stroke-width="1"/>
+<text x="575.333" y="717" font-size="13" font-weight="700" fill="#0F172A" text-anchor="start" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace">git worktree</text>
+<text x="575.333" y="733" font-size="10.2" font-weight="400" fill="#64748B" text-anchor="start">one isolated workspace per task</text>
+<path d="M282.167 720 L297.167 720" fill="none" stroke="#059669" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#m059669)" marker-start="url(#m059669)"/>
+<path d="M542.833 720 L557.833 720" fill="none" stroke="#059669" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#m059669)" marker-start="url(#m059669)"/>
+<path d="M48 664 L48 323 Q48 315 56 315 L71.5 315" fill="none" stroke="#059669" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#m059669)"/>
+<text x="60" y="610" font-size="10.8" font-weight="700" fill="#047857" text-anchor="start">outbound A2A subscription (SSE)</text>
+<path d="M764 664 L764 596.5" fill="none" stroke="#7C3AED" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#m7C3AED)"/>
+<text x="752" y="658" font-size="10.8" font-weight="700" fill="#6D28D9" text-anchor="end">git push (the dev&#x27;s own credentials, bypasses the platform)</text>
+<rect x="28" y="766" width="12" height="12" rx="3.5" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.3"/>
+<text x="46" y="776" font-size="11" font-weight="400" fill="#64748B" text-anchor="start">custom-built</text>
+<rect x="138.73" y="766" width="12" height="12" rx="3.5" fill="#FFFFFF" stroke="#64748B" stroke-width="1.3"/>
+<text x="156.73" y="776" font-size="11" font-weight="400" fill="#64748B" text-anchor="start">off the shelf</text>
+<rect x="248.69" y="766" width="12" height="12" rx="3.5" fill="#ECFDF5" stroke="#059669" stroke-width="1.3"/>
+<text x="266.69" y="776" font-size="11" font-weight="400" fill="#64748B" text-anchor="start">on the dev machine</text>
+<rect x="389.56" y="766" width="12" height="12" rx="3.5" fill="#F5F3FF" stroke="#7C3AED" stroke-width="1.3"/>
+<text x="407.56" y="776" font-size="11" font-weight="400" fill="#64748B" text-anchor="start">code &amp; CI</text>
+</svg>

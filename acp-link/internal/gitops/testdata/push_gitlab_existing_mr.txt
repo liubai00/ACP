@@ -1,0 +1,7 @@
+remote:
+remote: View merge request for acp/42-add-hello-endpoint:
+remote:   http://10.0.0.5:8080/client/sub/app/merge_requests/5.
+remote:
+To http://10.0.0.5:8080/client/sub/app.git
+ 	HEAD:refs/heads/acp/42-add-hello-endpoint	a1b2c3d..e4f5a6b
+Done

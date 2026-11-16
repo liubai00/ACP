@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 792" width="840" height="792" role="img" aria-label="派活 总体架构：入口、连接与编排、网关、协调服务器、开发者电脑五层，右侧为 GitLab" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans CJK SC','WenQuanYi Zen Hei',sans-serif">
+<title>派活 总体架构：入口、连接与编排、网关、协调服务器、开发者电脑五层，右侧为 GitLab</title>
+<defs><filter id="sh" x="-10%" y="-10%" width="120%" height="140%"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.07"/></filter><marker id="m94A3B8" viewBox="0 0 10 10" refX="8.2" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1.2 1.6 8.6 5 1.2 8.4" fill="none" stroke="#94A3B8" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></marker><marker id="m2563EB" viewBox="0 0 10 10" refX="8.2" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1.2 1.6 8.6 5 1.2 8.4" fill="none" stroke="#2563EB" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></marker><marker id="m7C3AED" viewBox="0 0 10 10" refX="8.2" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1.2 1.6 8.6 5 1.2 8.4" fill="none" stroke="#7C3AED" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></marker><marker id="m059669" viewBox="0 0 10 10" refX="8.2" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1.2 1.6 8.6 5 1.2 8.4" fill="none" stroke="#059669" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect x="0.5" y="0.5" width="839" height="791" rx="16" fill="#F8FAFC" stroke="#E2E8F0"/>
+<text x="28" y="40" font-size="17" font-weight="700" fill="#0F172A" text-anchor="start">总体架构</text>
+<text x="28" y="61" font-size="12" font-weight="400" fill="#64748B" text-anchor="start">自研的只有协调服务器、接入程序、任务榜和一个很小的事件桥，其余用现成组件拼装。</text>
+<text x="76" y="86" font-size="10.5" font-weight="700" fill="#94A3B8" text-anchor="start" letter-spacing="1">入口</text>
+<rect x="76" y="96" width="176" height="54" rx="10" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1" filter="url(#sh)"/>
+<rect x="76.5" y="105" width="3" height="36" rx="1.5" fill="#2563EB"/>
+<text x="92" y="119" font-size="13.5" font-weight="700" fill="#0F172A" text-anchor="start">任务榜 Web</text>
+<text x="92" y="136" font-size="10.8" font-weight="400" fill="#64748B" text-anchor="start">React · 实时时间线</text>
+<rect x="272" y="96" width="420" height="54" rx="10" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1" filter="url(#sh)"/>
+<rect x="272.5" y="105" width="3" height="36" rx="1.5" fill="#64748B"/>
+<text x="288" y="119" font-size="13.5" font-weight="700" fill="#0F172A" text-anchor="start">飞书</text>
+<text x="288" y="136" font-size="10.8" font-weight="400" fill="#64748B" text-anchor="start">群聊 @机器人 · 私聊 · 快捷操作 · 审批卡片</text>
+<text x="272" y="182" font-size="10.5" font-weight="700" fill="#94A3B8" text-anchor="start" letter-spacing="1">连接与编排</text>
+<rect x="272" y="190" width="190" height="54" rx="10" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1" filter="url(#sh)"/>
+<rect x="272.5" y="199" width="3" height="36" rx="1.5" fill="#2563EB"/>
+<text x="288" y="213" font-size="13.5" font-weight="700" fill="#0F172A" text-anchor="start" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace">feishu-bridge</text>
+<text x="288" y="230" font-size="10.8" font-weight="400" fill="#64748B" text-anchor="start">飞书长连接事件桥</text>
+<rect x="482" y="190" width="210" height="54" rx="10" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1" filter="url(#sh)"/>
+<rect x="482.5" y="199" width="3" height="36" rx="1.5" fill="#64748B"/>
+<text x="498" y="213" font-size="13.5" font-weight="700" fill="#0F172A" text-anchor="start">n8n</text>
+<text x="498" y="230" font-size="10.8" font-weight="400" fill="#64748B" text-anchor="start">飞书事件 · GitLab 回执 · 通知出口</text>
+<path d="M367 154 L367 185.5" fill="none" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#m94A3B8)"/>
+<path d="M465 217 L478.5 217" fill="none" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#m94A3B8)"/>
+<path d="M695.5 217 L708.5 217" fill="none" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#m94A3B8)" marker-start="url(#m94A3B8)"/>
+<text x="702" y="208" font-size="9" font-weight="400" fill="#0F172A" text-anchor="start"></text>
+<text x="188" y="282" font-size="10.5" font-weight="700" fill="#94A3B8" text-anchor="start" letter-spacing="1">网关</text>
+<rect x="76" y="290" width="92" height="50" rx="10" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1" filter="url(#sh)"/>
+<rect x="76.5" y="299" width="3" height="32" rx="1.5" fill="#64748B"/>
+<text x="122" y="311" font-size="13.5" font-weight="700" fill="#0F172A" text-anchor="middle">Caddy</text>
+<text x="122" y="328" font-size="10.8" font-weight="400" fill="#64748B" text-anchor="middle">TLS</text>
+<rect x="188" y="290" width="504" height="50" rx="10" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1" filter="url(#sh)"/>
+<rect x="188.5" y="299" width="3" height="32" rx="1.5" fill="#64748B"/>
+<text x="204" y="311" font-size="13.5" font-weight="700" fill="#0F172A" text-anchor="start">agentgateway</text>
+<text x="204" y="328" font-size="10.8" font-weight="400" fill="#64748B" text-anchor="start">JWT 验签 · CEL 工具白名单 · 审计 · 代理大模型</text>
+<path d="M171 315 L184.5 315" fill="none" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#m94A3B8)"/>
+<path d="M122 154 L122 285.5" fill="none" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#m94A3B8)"/>
+<rect x="132" y="211" width="74.528" height="18" rx="9" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+<text x="169.264" y="223.6" font-size="10" font-weight="600" fill="#64748B" text-anchor="middle">REST · SSE</text>
+<path d="M587 248 L587 285.5" fill="none" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#m94A3B8)"/>
+<rect x="597" y="258" width="42.288" height="18" rx="9" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+<text x="618.144" y="270.6" font-size="10" font-weight="600" fill="#64748B" text-anchor="middle">REST</text>
+<rect x="76" y="372" width="616" height="220" rx="14" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.6" filter="url(#sh)"/>
+<path d="M440 344 L440 367.5" fill="none" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#m94A3B8)"/>
+<text x="94" y="400" font-size="15" font-weight="700" fill="#0F172A" text-anchor="start">协调服务器</text>
+<text x="182" y="400" font-size="11" font-weight="400" fill="#64748B" text-anchor="start" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace">coordinator · Python / FastAPI</text>
+<rect x="553.04" y="384" width="122.96" height="22" rx="11" fill="#2563EB" stroke="none" stroke-width="1"/>
+<text x="614.52" y="398.96" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">模型提议，规则裁决</text>
+<rect x="94" y="416" width="186.667" height="30" rx="8" fill="#FFFFFF" stroke="#BFDBFE" stroke-width="1"/>
+<text x="106" y="435.5" font-size="11.5" font-weight="700" fill="#1D4ED8" text-anchor="start" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace">/a2a</text>
+<text x="268.667" y="435.5" font-size="11.5" font-weight="600" fill="#0F172A" text-anchor="end">A2A 1.0</text>
+<rect x="290.667" y="416" width="186.667" height="30" rx="8" fill="#FFFFFF" stroke="#BFDBFE" stroke-width="1"/>
+<text x="302.667" y="435.5" font-size="11.5" font-weight="700" fill="#1D4ED8" text-anchor="start" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace">/mcp</text>
+<text x="465.333" y="435.5" font-size="11.5" font-weight="600" fill="#0F172A" text-anchor="end">MCP 工具</text>
+<rect x="487.333" y="416" width="186.667" height="30" rx="8" fill="#FFFFFF" stroke="#BFDBFE" stroke-width="1"/>
+<text x="499.333" y="435.5" font-size="11.5" font-weight="700" fill="#1D4ED8" text-anchor="start" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace">/api</text>
+<text x="662" y="435.5" font-size="11.5" font-weight="600" fill="#0F172A" text-anchor="end">REST + SSE</text>
+<rect x="94" y="460" width="236" height="92" rx="10" fill="#FFFFFF" stroke="#64748B" stroke-width="1.1" stroke-dasharray="4 3.5"/>
+<text x="108" y="484" font-size="13.5" font-weight="700" fill="#0F172A" text-anchor="start">协调 Agent 外壳</text>
+<rect x="274.36" y="470.25" width="43.64" height="17.5" rx="8.75" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1"/>
+<text x="296.18" y="482.42" font-size="9.5" font-weight="700" fill="#475569" text-anchor="middle">大模型</text>
+<text x="108" y="505" font-size="10.8" font-weight="400" fill="#64748B" text-anchor="start">理解需求 · 拆解 · 推荐派工</text>
+<text x="108" y="521" font-size="10.8" font-weight="400" fill="#64748B" text-anchor="start">归类 CI 失败 · 回答提问 · 巡检</text>
+<rect x="438" y="460" width="236" height="92" rx="10" fill="#FFFFFF" stroke="#2563EB" stroke-width="1.5"/>
+<text x="452" y="484" font-size="13.5" font-weight="700" fill="#0F172A" text-anchor="start">确定性内核</text>
+<rect x="628.24" y="470.25" width="33.76" height="17.5" rx="8.75" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+<text x="645.12" y="482.42" font-size="9.5" font-weight="700" fill="#1D4ED8" text-anchor="middle">代码</text>
+<text x="452" y="505" font-size="10.8" font-weight="400" fill="#64748B" text-anchor="start">任务库 · A2A 八态状态机</text>
+<text x="452" y="521" font-size="10.8" font-weight="400" fill="#64748B" text-anchor="start">权限矩阵 · 审批卡点 · 派工规则</text>
+<text x="108" y="542" font-size="9.8" font-weight="600" fill="#475569" text-anchor="start">L0 只建议  L1 先做再通知  L2 全自动</text>
+<text x="452" y="542" font-size="9.8" font-weight="600" fill="#1D4ED8" text-anchor="start">模型不可用时照常运行</text>
+<path d="M334 506 L433.5 506" fill="none" stroke="#2563EB" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#m2563EB)"/>
+<text x="384" y="482" font-size="10" font-weight="600" fill="#1D4ED8" text-anchor="middle">建议落地</text>
+<text x="384" y="495" font-size="10" font-weight="600" fill="#1D4ED8" text-anchor="middle">只走内核</text>
+<rect x="94" y="564" width="580" height="28" rx="8" fill="#FFFFFF" stroke="#BFDBFE" stroke-width="1"/>
+<text x="384" y="582.5" font-size="11.2" font-weight="600" fill="#0F172A" text-anchor="middle">PostgreSQL 16 · 唯一事实来源 · 事件只追加</text>
+<rect x="712" y="96" width="104" height="496" rx="14" fill="#F5F3FF" stroke="#DDD6FE" stroke-width="1" filter="url(#sh)"/>
+<text x="764" y="126" font-size="15" font-weight="700" fill="#0F172A" text-anchor="middle">GitLab</text>
+<text x="764" y="148" font-size="10.8" font-weight="400" fill="#64748B" text-anchor="middle">代码与合并权</text>
+<text x="764" y="163" font-size="10.8" font-weight="400" fill="#64748B" text-anchor="middle">始终在这里</text>
+<rect x="735.699" y="207" width="56.6026" height="20" rx="10" fill="#FFFFFF" stroke="#DDD6FE" stroke-width="1"/>
+<text x="764" y="220.528" font-size="9.8" font-weight="700" fill="#6D28D9" text-anchor="middle">Webhook</text>
+<rect x="722" y="540" width="84" height="26" rx="8" fill="#FFFFFF" stroke="#DDD6FE" stroke-width="1"/>
+<text x="764" y="557" font-size="10.5" font-weight="600" fill="#0F172A" text-anchor="middle">任务分支</text>
+<rect x="722" y="496" width="84" height="26" rx="8" fill="#FFFFFF" stroke="#DDD6FE" stroke-width="1"/>
+<text x="764" y="513" font-size="10.5" font-weight="600" fill="#0F172A" text-anchor="middle">Merge Request</text>
+<path d="M764 537 L764 526" fill="none" stroke="#7C3AED" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#m7C3AED)"/>
+<rect x="722" y="452" width="84" height="26" rx="8" fill="#FFFFFF" stroke="#DDD6FE" stroke-width="1"/>
+<text x="764" y="469" font-size="10.5" font-weight="600" fill="#0F172A" text-anchor="middle">CI 流水线</text>
+<path d="M764 493 L764 482" fill="none" stroke="#7C3AED" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#m7C3AED)"/>
+<rect x="722" y="408" width="84" height="26" rx="8" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.4"/>
+<text x="764" y="425" font-size="10.5" font-weight="700" fill="#6D28D9" text-anchor="middle">人工合并</text>
+<path d="M764 449 L764 438" fill="none" stroke="#7C3AED" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#m7C3AED)"/>
+<path d="M764 404 L764 232" fill="none" stroke="#7C3AED" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 4.5" marker-end="url(#m7C3AED)"/>
+<text x="773" y="320.5" font-size="10" font-weight="600" fill="#6D28D9" text-anchor="start">事件</text>
+<path d="M24 632 H816" stroke="#94A3B8" stroke-width="1.2" stroke-dasharray="2 5" stroke-linecap="round"/>
+<rect x="257.28" y="620" width="325.44" height="24" rx="12" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+<text x="420" y="636" font-size="11" font-weight="600" fill="#64748B" text-anchor="middle">内网边界：开发者电脑只发起出站连接，不开任何入站端口</text>
+<rect x="24" y="668" width="792" height="86" rx="14" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1" filter="url(#sh)"/>
+<text x="40" y="688" font-size="10.5" font-weight="700" fill="#94A3B8" text-anchor="start" letter-spacing="1">开发者电脑 × N</text>
+<rect x="40" y="698" width="238.667" height="44" rx="9" fill="#FFFFFF" stroke="#A7F3D0" stroke-width="1"/>
+<text x="54" y="717" font-size="13" font-weight="700" fill="#0F172A" text-anchor="start" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace">acp-link</text>
+<text x="54" y="733" font-size="10.2" font-weight="400" fill="#64748B" text-anchor="start">Go 单二进制 · 设备授权登录</text>
+<rect x="300.667" y="698" width="238.667" height="44" rx="9" fill="#FFFFFF" stroke="#A7F3D0" stroke-width="1"/>
+<text x="314.667" y="717" font-size="13" font-weight="700" fill="#0F172A" text-anchor="start">个人 Agent</text>
+<text x="314.667" y="733" font-size="10.2" font-weight="400" fill="#64748B" text-anchor="start">Claude Code / Codex · 各人自己的账号</text>
+<rect x="561.333" y="698" width="238.667" height="44" rx="9" fill="#FFFFFF" stroke="#A7F3D0" stroke-width="1"/>
+<text x="575.333" y="717" font-size="13" font-weight="700" fill="#0F172A" text-anchor="start" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace">git worktree</text>
+<text x="575.333" y="733" font-size="10.2" font-weight="400" fill="#64748B" text-anchor="start">每个任务一个隔离工作区</text>
+<path d="M282.167 720 L297.167 720" fill="none" stroke="#059669" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#m059669)" marker-start="url(#m059669)"/>
+<path d="M542.833 720 L557.833 720" fill="none" stroke="#059669" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#m059669)" marker-start="url(#m059669)"/>
+<path d="M48 664 L48 323 Q48 315 56 315 L71.5 315" fill="none" stroke="#059669" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#m059669)"/>
+<text x="60" y="610" font-size="10.8" font-weight="700" fill="#047857" text-anchor="start">出站 A2A 订阅（SSE 长连接）</text>
+<path d="M764 664 L764 596.5" fill="none" stroke="#7C3AED" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#m7C3AED)"/>
+<text x="752" y="658" font-size="10.8" font-weight="700" fill="#6D28D9" text-anchor="end">git push（开发者自己的凭证，不经平台）</text>
+<rect x="28" y="766" width="12" height="12" rx="3.5" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.3"/>
+<text x="46" y="776" font-size="11" font-weight="400" fill="#64748B" text-anchor="start">自研</text>
+<rect x="90" y="766" width="12" height="12" rx="3.5" fill="#FFFFFF" stroke="#64748B" stroke-width="1.3"/>
+<text x="108" y="776" font-size="11" font-weight="400" fill="#64748B" text-anchor="start">现成组件</text>
+<rect x="174" y="766" width="12" height="12" rx="3.5" fill="#ECFDF5" stroke="#059669" stroke-width="1.3"/>
+<text x="192" y="776" font-size="11" font-weight="400" fill="#64748B" text-anchor="start">开发者本机</text>
+<rect x="269" y="766" width="12" height="12" rx="3.5" fill="#F5F3FF" stroke="#7C3AED" stroke-width="1.3"/>
+<text x="287" y="776" font-size="11" font-weight="400" fill="#64748B" text-anchor="start">代码与 CI</text>
+</svg>

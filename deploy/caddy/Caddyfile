@@ -1,0 +1,60 @@
+# ACP_SITE_ADDRESS / N8N_SITE_ADDRESS 来自 .env：
+#   只有 IP 时用 ":80" 和 ":5678"（HTTP）；有域名时写域名（Caddy 自动申请 HTTPS 证书）。
+{
+	email {$ACME_EMAIL}
+}
+
+{$ACP_SITE_ADDRESS} {
+	encode zstd gzip
+
+	# 登录、JWKS、Agent Card、健康检查、免登录测试端点、直连 Webhook、浏览器 SSE（令牌在查询参数里）：直达协调服务器
+	@direct {
+		path /auth/* /.well-known/* /healthz /api/ping/stream /api/hooks/* /api/docs /api/openapi.json
+	}
+	@sse path_regexp sse ^/api/tasks/[0-9]+/stream$
+	handle @direct {
+		reverse_proxy coordinator:8000 {
+			flush_interval -1
+		}
+	}
+	handle @sse {
+		reverse_proxy coordinator:8000 {
+			flush_interval -1
+		}
+	}
+
+	# 三个接口面先过 agentgateway（JWT 验签 + MCP 工具白名单）
+	@gateway path /api/* /a2a /a2a/* /mcp /mcp/*
+	handle @gateway {
+		reverse_proxy agentgateway:3000 {
+			flush_interval -1
+			transport http {
+				read_timeout 0
+			}
+		}
+	}
+
+	# 接入程序安装包下载（acp-link/dist 挂载进来）
+	handle_path /downloads/* {
+		root * /srv/downloads
+		file_server browse
+	}
+
+	# 其余是任务榜单页应用
+	handle {
+		reverse_proxy board:80
+	}
+
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+		-Server
+	}
+}
+
+{$N8N_SITE_ADDRESS} {
+	encode zstd gzip
+	reverse_proxy n8n:5678 {
+		flush_interval -1
+	}
+}
