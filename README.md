@@ -137,8 +137,8 @@ Agent 之间的求助也只是一个子任务：甲的 Agent 调 `ask_agent`，�
 **只想看看界面（两分钟，不需要后端）**
 
 ```bash
-git clone https://github.com/liubai00/ACP.git
-cd ACP/board
+git clone https://github.com/liubai00/paihuo.git
+cd paihuo/board
 npm install
 npm run dev:mock
 ```
@@ -150,7 +150,7 @@ npm run dev:mock
 一台 Linux 云服务器即可跑全套，试点规模建议 8 核 16 GB。以 root 执行：
 
 ```bash
-git clone https://github.com/liubai00/ACP.git && cd ACP
+git clone https://github.com/liubai00/paihuo.git && cd paihuo
 bash deploy/install.sh --host <服务器IP> --demo        # 国内服务器加 --cn-mirror
 bash deploy/scripts/smoke-test.sh                       # 13 项冒烟测试
 ```
