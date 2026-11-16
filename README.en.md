@@ -139,8 +139,8 @@ The task detail page (screenshot at the top) is where observability lives: what 
 **Just look at the UI (two minutes, no backend)**
 
 ```bash
-git clone https://github.com/liubai00/ACP.git
-cd ACP/board
+git clone https://github.com/liubai00/paihuo.git
+cd paihuo/board
 npm install
 npm run dev:mock
 ```
@@ -152,7 +152,7 @@ Open the local address printed in the terminal and click the Feishu login button
 One Linux server runs the whole stack; 8 cores and 16 GB is a comfortable size for a pilot. As root:
 
 ```bash
-git clone https://github.com/liubai00/ACP.git && cd ACP
+git clone https://github.com/liubai00/paihuo.git && cd paihuo
 bash deploy/install.sh --host <server-ip> --demo
 bash deploy/scripts/smoke-test.sh          # 13 smoke checks
 ```
